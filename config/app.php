@@ -119,7 +119,6 @@ return [
         Illuminate\Bus\BusServiceProvider::class,
         Illuminate\Cache\CacheServiceProvider::class,
         Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
-        Illuminate\Routing\ControllerServiceProvider::class,
         Illuminate\Cookie\CookieServiceProvider::class,
         Illuminate\Database\DatabaseServiceProvider::class,
         Illuminate\Encryption\EncryptionServiceProvider::class,
@@ -146,7 +145,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         // Vendor Service Providers
-        FreddieDfre\AfricasTalkingLaravel5\AfricasTalkingLaravel5ServiceProvider::class,
+      /*  FreddieDfre\AfricasTalkingLaravel5\AfricasTalkingLaravel5ServiceProvider::class,*/
 
         //Custom Service Providers
         App\Providers\ViewComposerServiceProvider::class,
@@ -166,7 +165,7 @@ return [
 
     'aliases' => [
 
-        'AfricasTalkingGateway' => FreddieDfre\AfricasTalkingLaravel5\AfricasTalkingLaravel5Facade::class,
+        /*'AfricasTalkingGateway' => FreddieDfre\AfricasTalkingLaravel5\AfricasTalkingLaravel5Facade::class,*/
         'App'                   => Illuminate\Support\Facades\App::class,
         'Artisan'               => Illuminate\Support\Facades\Artisan::class,
         'Auth'                  => Illuminate\Support\Facades\Auth::class,

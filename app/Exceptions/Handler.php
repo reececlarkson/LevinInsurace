@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Throwable;
 
 class Handler extends ExceptionHandler {
     /**
@@ -20,6 +21,8 @@ class Handler extends ExceptionHandler {
         InsuraModelNotFoundException::class,
     ];
 
+
+
     /**
      * Report or log an exception.
      *
@@ -28,7 +31,7 @@ class Handler extends ExceptionHandler {
      * @param  \Exception  $e
      * @return void
      */
-    public function report(Exception $e) {
+    public function report(Throwable $e) {
         return parent::report($e);
     }
 
@@ -39,7 +42,7 @@ class Handler extends ExceptionHandler {
      * @param  \Exception  $e
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $e) {
+    public function render($request, Throwable $e) {
         if ($e instanceof ModelNotFoundException) {
             $e = new NotFoundHttpException($e->getMessage(), $e);
         }
