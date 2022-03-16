@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Views\Composers\Auth;
-use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Company;
@@ -26,7 +26,6 @@ class AuthController extends Controller {
     |
     */
 
-    use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
     /**
      * Redirect path for failed logins.
