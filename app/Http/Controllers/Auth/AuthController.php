@@ -3,15 +3,17 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Views\Composers\Auth;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Company;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 
 class AuthController extends Controller {
@@ -26,27 +28,28 @@ class AuthController extends Controller {
     |
     */
 
-
+    use AuthenticatesUsers, ThrottlesLogins;
+    use RegistersUsers;
     /**
      * Redirect path for failed logins.
      *
      * @var string
      */
-    protected string $loginPath;
+    protected $loginPath;
 
     /**
      * Redirect path for successful logouts.
      *
      * @var string
      */
-    protected string $redirectAfterLogout;
+    protected $redirectAfterLogout;
 
     /**
      * Redirect path for successful logins.
      *
      * @var string
      */
-    protected string $redirectPath;
+    protected $redirectPath;
 
     /**
      * Create a new authentication controller instance.
@@ -73,7 +76,7 @@ class AuthController extends Controller {
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  array  $errors
-     * @return JsonResponse|\Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\Response
      */
     protected function buildFailedValidationResponse(Request $request, array $errors) {
         if ($request->ajax() || $request->wantsJson()) {
@@ -81,9 +84,9 @@ class AuthController extends Controller {
         }
 
         return redirect()->to($this->getRedirectUrl())
-                        ->with('state', $this->errorBag())
-                        ->withInput($request->input())
-                        ->withErrors($errors, $this->errorBag());
+            ->with('state', $this->errorBag())
+            ->withInput($request->input())
+            ->withErrors($errors, $this->errorBag());
     }
 
     /**
@@ -92,8 +95,7 @@ class AuthController extends Controller {
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data): User
-    {
+    protected function create(array $data) {
         $company = Company::create(array(
             'name' => $data['company_name']
         ));
@@ -112,7 +114,7 @@ class AuthController extends Controller {
     /**
      * Show the application authentification forms.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function getAuth() {
         return view('global.auth');
@@ -122,7 +124,7 @@ class AuthController extends Controller {
      * Handle a login request to the application. !!OVERRIDE
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function postLogin(Request $request) {
         $this->validatesRequestErrorBag = 'login';
@@ -184,10 +186,9 @@ class AuthController extends Controller {
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data): \Illuminate\Contracts\Validation\Validator
-    {
+    protected function validator(array $data) {
         $this->validatesRequestErrorBag = 'register';
-        
+
         return Validator::make($data, [
             'company_name' => 'required|max:64',
             'email' => 'required|email|max:64|unique:users',

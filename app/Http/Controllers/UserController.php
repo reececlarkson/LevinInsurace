@@ -33,7 +33,7 @@ class UserController extends Controller {
      * Update a user's profile
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function edit(Request $request, User $user) {
         $this->validate($request, array(

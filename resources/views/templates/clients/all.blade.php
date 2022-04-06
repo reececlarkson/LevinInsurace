@@ -34,7 +34,7 @@
                         <div class="col-md-6">
                             <div class="field">
                                 <label>{{ trans('clients.label.name') }}</label>
-                                <input type="text" name="name" placeholder="{{ trans('clients.label.name') }}" value="{{ $filters['name'] or null }}"/>
+                                <input type="text" name="name" placeholder="{{ trans('clients.label.name') }}" value=""/>
                             </div>
                         </div>
                         <div class="col-md-3">
